@@ -1,17 +1,215 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>风暴中的一生 · 法国大革命人生叙事</title>
-  <meta name="description" content="1769–1815 法国大革命人生叙事RPG — 从出生到终局，让你活成谁" />
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700;900&family=Playfair+Display:ital,wght@0,700;0,900;1,700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>风暴中的一生 - 法国大革命人生模拟RPG</title>
+    <link rel="stylesheet" href="styles.css">
+    <!-- 引入字体（可选，提升排版质感） -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
-  <div id="app"></div>
-  <script src="app.js"></script>
+    <div class="game-container">
+        <!-- 标题/开场区域 -->
+        <div id="title-screen" class="screen active">
+            <h1 class="game-title">风暴中的一生</h1>
+            <p class="game-subtitle">法国大革命 · 1769-1815</p>
+            <button id="start-btn" class="primary-btn">开启你的人生</button>
+        </div>
+
+        <!-- 游戏主界面 -->
+        <div id="game-screen" class="screen">
+            <!-- 章节介绍区 -->
+            <div id="chapter-intro" class="chapter-intro hidden">
+                <h2 class="chapter-title" id="chapter-title"></h2>
+                <p class="chapter-desc" id="chapter-desc"></p>
+                <button id="close-chapter-intro" class="secondary-btn">继续</button>
+            </div>
+
+            <!-- 核心剧情展示区 -->
+            <div class="game-content">
+                <div class="narrative-container">
+                    <h3 class="event-title" id="event-title"></h3>
+                    <div class="event-text" id="event-text"></div>
+                    
+                    <!-- 虚亡事件专属展示区 -->
+                    <div id="lesser-death-container" class="lesser-death-container hidden">
+                        <div class="lesser-death-header">「死过一次的人」</div>
+                        <div class="lesser-death-text" id="lesser-death-text"></div>
+                        <div class="lesser-death-effect" id="lesser-death-effect"></div>
+                        <button id="close-lesser-death" class="primary-btn">直面苦难</button>
+                    </div>
+                </div>
+
+                <!-- 选项区 -->
+                <div class="choices-container" id="choices-container"></div>
+            </div>
+
+            <!-- 侧边面板区（PC端）/折叠面板（移动端） -->
+            <div class="panels-wrapper">
+                <!-- 角色状态面板 -->
+                <div class="panel character-panel">
+                    <div class="panel-header">
+                        <h3>角色状态</h3>
+                        <button class="panel-toggle" id="toggle-character-panel">▼</button>
+                    </div>
+                    <div class="panel-content">
+                        <!-- 基础信息 -->
+                        <div class="character-basic">
+                            <p><span class="label">人生阶段：</span><span id="life-phase">童年期 (1769-1783)</span></p>
+                            <p><span class="label">出身：</span><span id="origin">未选择</span></p>
+                            <p><span class="label">性别：</span><span id="gender">未选择</span></p>
+                            <p><span class="label">地区：</span><span id="region">未选择</span></p>
+                            <p><span class="label">虚亡次数：</span><span id="lesser-death-count">0/3</span></p>
+                        </div>
+
+                        <!-- 基础特质 -->
+                        <div class="traits-section">
+                            <h4>基础特质</h4>
+                            <div class="trait-list base-traits">
+                                <div class="trait-item">
+                                    <span class="trait-name">决心：</span>
+                                    <span class="trait-value" id="trait-determination">0</span>
+                                </div>
+                                <div class="trait-item">
+                                    <span class="trait-name">感知：</span>
+                                    <span class="trait-value" id="trait-perception">0</span>
+                                </div>
+                                <div class="trait-item">
+                                    <span class="trait-name">灵性：</span>
+                                    <span class="trait-value" id="trait-sensibility">0</span>
+                                </div>
+                                <div class="trait-item">
+                                    <span class="trait-name">自尊：</span>
+                                    <span class="trait-value" id="trait-nobility">0</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 复合特质 -->
+                        <div class="traits-section">
+                            <h4>复合特质</h4>
+                            <div class="trait-list compound-traits">
+                                <div class="trait-item">
+                                    <span class="trait-name">勇气：</span>
+                                    <span class="trait-value" id="trait-valor">0</span>
+                                </div>
+                                <div class="trait-item">
+                                    <span class="trait-name">权谋：</span>
+                                    <span class="trait-value" id="trait-scheming">0</span>
+                                </div>
+                                <div class="trait-item">
+                                    <span class="trait-name">口才：</span>
+                                    <span class="trait-value" id="trait-eloquence">0</span>
+                                </div>
+                                <div class="trait-item">
+                                    <span class="trait-name">外交：</span>
+                                    <span class="trait-value" id="trait-diplomacy">0</span>
+                                </div>
+                                <div class="trait-item">
+                                    <span class="trait-name">操控：</span>
+                                    <span class="trait-value" id="trait-manipulation">0</span>
+                                </div>
+                                <div class="trait-item">
+                                    <span class="trait-name">神学：</span>
+                                    <span class="trait-value" id="trait-theology">0</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 立场轴 -->
+                        <div class="traits-section">
+                            <h4>立场轴</h4>
+                            <div class="axis-list">
+                                <div class="axis-item">
+                                    <span class="axis-name">政体倾向：</span>
+                                    <div class="axis-bar">
+                                        <div class="axis-fill" id="axis-regime" style="width: 50%;"></div>
+                                    </div>
+                                    <span class="axis-value" id="axis-regime-value">0</span>
+                                </div>
+                                <div class="axis-item">
+                                    <span class="axis-name">主权归属：</span>
+                                    <div class="axis-bar">
+                                        <div class="axis-fill" id="axis-sovereignty" style="width: 50%;"></div>
+                                    </div>
+                                    <span class="axis-value" id="axis-sovereignty-value">0</span>
+                                </div>
+                                <div class="axis-item">
+                                    <span class="axis-name">法治程度：</span>
+                                    <div class="axis-bar">
+                                        <div class="axis-fill" id="axis-rule_of_law" style="width: 50%;"></div>
+                                    </div>
+                                    <span class="axis-value" id="axis-rule_of_law-value">0</span>
+                                </div>
+                                <div class="axis-item">
+                                    <span class="axis-name">平等追求：</span>
+                                    <div class="axis-bar">
+                                        <div class="axis-fill" id="axis-equality" style="width: 50%;"></div>
+                                    </div>
+                                    <span class="axis-value" id="axis-equality-value">0</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 动态属性 -->
+                        <div class="traits-section">
+                            <h4>动态属性</h4>
+                            <div class="stat-list">
+                                <div class="stat-item">
+                                    <span class="stat-name">财富：</span>
+                                    <span class="stat-value" id="stat-wealth">0</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="stat-name">声望：</span>
+                                    <span class="stat-value" id="stat-prestige">0</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="stat-name">安全：</span>
+                                    <span class="stat-value" id="stat-safety">1</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="stat-name">影响力：</span>
+                                    <span class="stat-value" id="stat-influence">0</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 标签 -->
+                        <div class="traits-section">
+                            <h4>核心标签</h4>
+                            <div class="tags-list" id="tags-list">无</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 人生轨迹面板 -->
+                <div class="panel trajectory-panel">
+                    <div class="panel-header">
+                        <h3>人生轨迹</h3>
+                        <button class="panel-toggle" id="toggle-trajectory-panel">▼</button>
+                    </div>
+                    <div class="panel-content">
+                        <div id="trajectory-list" class="trajectory-list">
+                            <p class="trajectory-empty">你的人生尚未开始...</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 结局展示区 -->
+        <div id="ending-screen" class="screen">
+            <h2 class="ending-title" id="ending-title"></h2>
+            <div class="ending-text" id="ending-text"></div>
+            <div class="ending-summary" id="ending-summary"></div>
+            <button id="restart-btn" class="primary-btn">重新开始人生</button>
+        </div>
+
+        <!-- 移动端面板切换按钮 -->
+        <button id="mobile-panel-toggle" class="mobile-panel-btn">角色面板</button>
+    </div>
+
+    <script src="app.js"></script>
 </body>
 </html>
