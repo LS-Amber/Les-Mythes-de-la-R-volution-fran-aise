@@ -14,6 +14,7 @@ button { font: inherit; }
   position: relative;
 }
 
+/* ── Progress Bar ── */
 .progress-bar {
   position: fixed;
   top: 0; left: 0; right: 0;
@@ -28,6 +29,33 @@ button { font: inherit; }
   border-radius: 0 2px 2px 0;
 }
 
+/* ── Status Bar (top HUD) ── */
+.status-bar {
+  position: fixed;
+  top: 3px; left: 0; right: 0;
+  z-index: 99;
+  background: rgba(26,20,16,0.92);
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+  backdrop-filter: blur(8px);
+  padding: 6px 16px;
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  font-size: 11px;
+  color: #7a6e5e;
+  letter-spacing: 1px;
+}
+.status-item {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.status-value { color: #c4a84a; font-weight: 600; }
+.status-value.low { color: #c4473a; }
+.status-value.high { color: #6a9f6a; }
+
+/* ── Content ── */
 .content {
   max-width: 720px;
   margin: 0 auto;
@@ -36,6 +64,7 @@ button { font: inherit; }
   opacity: 1;
   transition: opacity 0.35s ease;
 }
+.has-status .content { padding-top: 68px; }
 .content.fade-out { opacity: 0; }
 
 .fade-in-up { animation: fadeInUp 0.55s ease forwards; }
@@ -44,6 +73,7 @@ button { font: inherit; }
   to { opacity: 1; transform: translateY(0); }
 }
 
+/* ── Title Screen ── */
 .title-screen { text-align: center; padding-top: 60px; }
 .title-decor { font-size: 48px; color: #8b6914; margin-bottom: 16px; opacity: 0.7; }
 .main-title {
@@ -57,10 +87,11 @@ button { font: inherit; }
 .title-desc { font-size: 14px; color: #7a6e5e; margin: 0 0 28px; letter-spacing: 2px; }
 .title-divider, .chapter-divider { color: #5a4e3e; font-size: 14px; margin: 20px 0; letter-spacing: 4px; }
 .title-flavor {
-  font-size: 16px; line-height: 2; color: #c0b098; margin: 0 auto 36px; max-width: 420px;
+  font-size: 16px; line-height: 2; color: #c0b098; margin: 0 auto 36px; max-width: 460px;
 }
 .tiny-note { font-size: 11px; color: #5a4e3e; margin-top: 24px; }
 
+/* ── Phase Labels & Section Titles ── */
 .phase-label { font-size: 12px; color: #8b6914; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 8px; }
 .section-title, .event-title {
   font-size: 28px; font-weight: 700; color: #f0e6d0; margin: 0 0 12px; line-height: 1.4;
@@ -81,12 +112,27 @@ button { font: inherit; }
   border-radius: 2px;
 }
 
+/* ── Route Badge ── */
+.route-badge {
+  display: inline-block;
+  padding: 3px 12px;
+  font-size: 11px;
+  letter-spacing: 2px;
+  border-radius: 2px;
+  margin-left: 8px;
+  vertical-align: middle;
+}
+.route-badge.legal { background: rgba(70,100,140,0.2); border: 1px solid rgba(70,100,140,0.4); color: #8ab4d8; }
+.route-badge.faith { background: rgba(140,100,60,0.2); border: 1px solid rgba(140,100,60,0.4); color: #d4b078; }
+.route-badge.club  { background: rgba(140,50,50,0.2); border: 1px solid rgba(140,50,50,0.4); color: #d88a8a; }
+
+/* ── Grids ── */
 .grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
   gap: 14px;
 }
-.gender-grid {
+.grid-2 {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 16px;
@@ -116,7 +162,14 @@ button { font: inherit; }
 }
 .gender-name { font-size: 20px; margin-bottom: 10px; }
 .card-desc { font-size: 13px; color: #a09080; line-height: 1.7; }
+.card-effect {
+  font-size: 11px; color: #6a9f6a; margin-top: 8px; line-height: 1.5;
+  border-top: 1px solid rgba(255,255,255,0.06);
+  padding-top: 8px;
+  width: 100%;
+}
 
+/* ── Narrative Box ── */
 .narrative-box {
   background: rgba(255,255,255,0.03);
   border-left: 3px solid rgba(139,105,20,0.4);
@@ -131,6 +184,16 @@ button { font: inherit; }
   margin: 0;
 }
 
+/* ── Consequence Preview ── */
+.consequence-hint {
+  font-size: 11px;
+  color: #7a6e5e;
+  margin-top: 6px;
+  font-style: italic;
+  line-height: 1.5;
+}
+
+/* ── Choice List ── */
 .choice-list { display: flex; flex-direction: column; gap: 10px; }
 .choice-btn {
   display: block; width: 100%; text-align: left;
@@ -155,7 +218,7 @@ button { font: inherit; }
   border-left-color: #8b1e1e;
   color: #f0e6d0;
 }
-.choice-btn:disabled { cursor: default; }
+.choice-btn:disabled { cursor: default; opacity: 0.7; }
 
 .event-counter {
   font-size: 12px;
@@ -165,12 +228,14 @@ button { font: inherit; }
   letter-spacing: 2px;
 }
 
+/* ── Chapter Intro ── */
 .chapter-intro { text-align: center; padding-top: 40px; }
 .chapter-title {
   font-size: 30px; font-weight: 900; color: #f0e6d0; margin: 0 0 12px; line-height: 1.3; letter-spacing: 3px;
 }
 .chapter-intro-text { max-width: 560px; margin: 0 auto 32px; text-align: left; color: #b0a490; }
 
+/* ── Buttons ── */
 .btn-primary, .btn-secondary {
   border: none;
   padding: 14px 36px;
@@ -194,11 +259,129 @@ button { font: inherit; }
   color: #a09080;
   font-size: 15px;
 }
+.btn-small {
+  border: none;
+  padding: 8px 20px;
+  border-radius: 2px;
+  cursor: pointer;
+  font-size: 12px;
+  letter-spacing: 2px;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.1);
+  color: #a09080;
+  transition: all 0.2s;
+}
+.btn-small:hover { border-color: #8b6914; color: #c4a84a; }
 
+/* ── Relationship Panel ── */
+.relation-panel {
+  background: rgba(255,255,255,0.02);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 3px;
+  padding: 20px;
+  margin: 24px 0;
+}
+.relation-panel h3 {
+  font-size: 13px; color: #8b6914; letter-spacing: 3px;
+  margin: 0 0 16px; font-weight: 400; text-align: center;
+}
+.relation-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+.relation-item {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 10px 12px;
+  background: rgba(255,255,255,0.02);
+  border-radius: 2px;
+}
+.relation-name {
+  font-size: 12px; font-weight: 600; color: #c0b098;
+}
+.relation-bar-wrap {
+  display: flex; align-items: center; gap: 6px;
+}
+.relation-bar-label {
+  font-size: 9px; color: #5a4e3e; width: 20px; flex-shrink: 0;
+}
+.relation-bar {
+  flex: 1; height: 4px;
+  background: rgba(255,255,255,0.06);
+  border-radius: 2px;
+  overflow: hidden;
+}
+.relation-bar-fill {
+  height: 100%; border-radius: 2px;
+  transition: width 0.4s ease;
+}
+.relation-bar-fill.closeness { background: #6a8f6a; }
+.relation-bar-fill.trust { background: #6a7e9f; }
+
+/* ── World State Panel ── */
+.world-panel {
+  background: rgba(255,255,255,0.02);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 3px;
+  padding: 16px 20px;
+  margin: 16px 0;
+}
+.world-panel h3 {
+  font-size: 13px; color: #8b6914; letter-spacing: 3px;
+  margin: 0 0 12px; font-weight: 400; text-align: center;
+}
+.world-row {
+  display: flex; align-items: center; gap: 8px;
+  margin-bottom: 8px;
+}
+.world-label { font-size: 11px; color: #7a6e5e; width: 80px; flex-shrink: 0; text-align: right; }
+.world-bar {
+  flex: 1; height: 5px;
+  background: rgba(255,255,255,0.06);
+  border-radius: 2px;
+  overflow: hidden;
+}
+.world-bar-fill {
+  height: 100%; border-radius: 2px;
+  transition: width 0.4s ease;
+  background: linear-gradient(90deg, #8b6914, #c4a84a);
+}
+.world-bar-fill.danger { background: linear-gradient(90deg, #8b1e1e, #c4473a); }
+
+/* ── Notification / Event Echo ── */
+.event-echo {
+  background: rgba(139,105,20,0.08);
+  border: 1px solid rgba(139,105,20,0.2);
+  border-radius: 3px;
+  padding: 12px 16px;
+  margin-bottom: 16px;
+  font-size: 13px;
+  color: #c4a84a;
+  line-height: 1.7;
+  font-style: italic;
+}
+
+/* ── Result / Epilogue ── */
 .result-header { text-align: center; margin-bottom: 40px; padding-top: 20px; }
 .result-main-title { font-size: 36px; font-weight: 900; color: #f0e6d0; margin: 8px 0; letter-spacing: 6px; }
 .result-subtitle { font-size: 14px; color: #7a6e5e; letter-spacing: 4px; }
 .result-origin-line { font-size: 14px; color: #a09080; margin-top: 12px; letter-spacing: 2px; }
+
+.epilogue-quote {
+  text-align: center;
+  padding: 32px 24px;
+  margin-bottom: 28px;
+}
+.epilogue-quote p {
+  font-size: 20px;
+  font-style: italic;
+  color: #c0b098;
+  line-height: 1.8;
+  max-width: 520px;
+  margin: 0 auto;
+}
 
 .result-section {
   background: rgba(255,255,255,0.03);
@@ -214,14 +397,16 @@ button { font: inherit; }
 .ending-name {
   font-size: 24px; font-weight: 700; color: #c4473a; text-align: center; margin: 0 0 16px;
 }
+.ending-desc, .epilogue-text {
+  font-size: 15px; color: #a09080; line-height: 1.9; text-align: center;
+}
 .ideology-text {
   font-size: 20px; font-weight: 700; color: #c4a84a; text-align: center; letter-spacing: 4px;
 }
 .faction-box, .figure-box, .secondary-faction { text-align: center; }
 .faction-name { font-size: 22px; font-weight: 700; color: #f0e6d0; margin: 0 0 12px; }
 .secondary-faction {
-  margin-top: 16px;
-  padding-top: 16px;
+  margin-top: 16px; padding-top: 16px;
   border-top: 1px solid rgba(255,255,255,0.06);
 }
 .secondary-label, .figure-alt { font-size: 14px; color: #8b6914; }
@@ -230,7 +415,22 @@ button { font: inherit; }
   font-family: "Playfair Display", serif;
 }
 .opposite-faction { font-size: 18px; font-weight: 600; color: #a09080; text-align: center; }
+.faction-desc { text-align: center; }
 
+/* ── Family Epilogue Items ── */
+.family-epilogue-item {
+  padding: 12px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+}
+.family-epilogue-item:last-child { border-bottom: none; }
+.family-epilogue-name {
+  font-size: 14px; font-weight: 600; color: #c0b098; margin-bottom: 4px;
+}
+.family-epilogue-fate {
+  font-size: 13px; color: #8a7e6e; line-height: 1.7;
+}
+
+/* ── Axes ── */
 .axes-grid { display: flex; flex-direction: column; gap: 14px; }
 .axis-row { display: flex; align-items: center; gap: 12px; }
 .axis-left, .axis-right {
@@ -238,8 +438,7 @@ button { font: inherit; }
 }
 .axis-left { text-align: right; }
 .axis-bar {
-  flex: 1;
-  height: 6px;
+  flex: 1; height: 6px;
   background: rgba(255,255,255,0.08);
   border-radius: 3px;
   position: relative;
@@ -257,24 +456,33 @@ button { font: inherit; }
 }
 
 .actions-row {
-  display: flex;
-  gap: 12px;
-  justify-content: center;
-  flex-wrap: wrap;
-  margin-top: 32px;
+  display: flex; gap: 12px; justify-content: center;
+  flex-wrap: wrap; margin-top: 32px;
 }
 
-.helper-note {
-  margin-top: 18px;
-  font-size: 12px;
-  color: #7a6e5e;
-  text-align: center;
+/* ── Toggleable panels ── */
+.panel-toggle {
+  display: flex; justify-content: center; gap: 8px;
+  margin: 16px 0;
 }
 
+/* ── Historical memory text ── */
+.memory-text {
+  font-size: 14px; color: #a09080; line-height: 2;
+  text-align: left; font-style: italic;
+  padding: 16px 20px;
+  background: rgba(139,105,20,0.05);
+  border-left: 2px solid rgba(139,105,20,0.3);
+  border-radius: 0 3px 3px 0;
+}
+
+/* ── Responsive ── */
 @media (max-width: 720px) {
   .main-title { font-size: 34px; letter-spacing: 4px; }
-  .grid, .gender-grid { grid-template-columns: 1fr; }
+  .grid, .grid-2 { grid-template-columns: 1fr; }
   .content { padding: 28px 16px 48px; }
   .axis-row { gap: 8px; }
   .axis-left, .axis-right { width: 58px; font-size: 10px; }
+  .relation-grid { grid-template-columns: 1fr; }
+  .status-bar { gap: 10px; padding: 4px 10px; font-size: 10px; }
 }
